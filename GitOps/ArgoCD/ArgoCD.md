@@ -54,9 +54,27 @@ argocd logout [IP_ADDRESS]
 
 ## ArgoCD Git 연동
 ```sh
-GIT_URL=''
-GIT_DIR=''
-argocd app create guestbook --repo "${GIT_URL}" --path "${GIT_DIR}" --dest-server "${USER_NAME}" --dest-namespace gitops
+argocd app create [APP_NM] --repo [REPOSITORY_URL] --path [REPOSITORY_PATH] --dest-server [SERVER_URL] --dest-namespace [NAMESPACE_NM]
+
+    # Create a directory app
+    argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
+
+    # Create a Jsonnet app
+    argocd app create jsonnet-guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path jsonnet-guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --jsonnet-ext-str replicas=2
+
+    # Create a Helm app
+    argocd app create helm-guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path helm-guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --helm-set replicaCount=2
+
+    # Create a Helm app from a Helm repo
+    argocd app create nginx-ingress --repo https://kubernetes-charts.storage.googleapis.com --helm-chart nginx-ingress --revision 1.24.3 --dest-namespace default --dest-server https://kubernetes.default.svc
+
+    # Create a Kustomize app
+    argocd app create kustomize-guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path kustomize-guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --kustomize-image gcr.io/heptio-images/ks-guestbook-demo:0.1
+
+    # Create a app using a custom tool:
+    argocd app create ksane --repo https://github.com/argoproj/argocd-example-apps.git --path plugins/kasane --dest-namespace default --dest-server https://kubernetes.default.svc --config-management-plugin kasane
 ```
 
 ## ArgoCD 활용 | Kustomize
+
+## ArgoCD 활용 | Helm
